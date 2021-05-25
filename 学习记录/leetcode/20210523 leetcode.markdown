@@ -1,0 +1,169 @@
+# leetcode 刷题
+
+5.23 的每日一题题是[1707. 与数组中元素的最大异或值](https://leetcode-cn.com/problems/maximum-xor-with-an-element-from-array/)，最近异或的题目真滴很多。
+这道题可以采用字典树的方法。官方题解 cue 了另一道题[208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)，主要是讲解字典树。字典树不太会，先总结在这里吧！
+
+> - 字典树，又称单词查找树，Trie 树，是一种树形结构，是一种哈希树的变种。典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串），所以经常被搜索引擎系统用于文本词频统计。
+> - 字典树的优点：利用字符串的公共前缀来减少查询时间，最大限度地减少无谓的字符串比较，查询效率比哈希树高。
+> - 字典树的缺点：空间消耗比较大；当 hash 函数很好时，Trie 树的查找效率会低于哈希搜索。
+> - 字典树的性质：根节点不包含字符，除根节点外每一个节点都只包含一个字符； 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串； 每个节点的所有子节点包含的字符都不相同。通常在实现的时候，会在节点结构中设置一个关键字，标记该结点处是否够成一个单词！
+
+可以看出，Trie 树的关键字一般都是字符串，而且 Trie 树把每个关键字保存在一条路径上，而不是一个结点中。另外，两个有公共前缀的关键字，在 Trie 树中前缀部分的路径相同，所以 Trie 树又叫做前缀树（Prefix Tree）。
+
+> **搜索** 字典项目的方法为：
+>
+> 1. 从根结点开始一次搜索；
+> 2. 取得要查找关键词的第一个字母，并根据该字母选择对应的子树并转到该子树继续进行检索；
+> 3. 在相应的子树上，取得要查找关键词的第二个字母,并进一步选择对应的子树进行检索。
+> 4. 迭代过程……
+> 5. 在某个结点处，关键词的所有字母已被取出，则读取附在该结点上的信息，即完成查找。
+>    其他操作类似处理
+
+> Trie 树的应用:
+>
+> 1. 字符串检索
+> 2. 词频统计
+> 3. 字符串排序
+> 4. 前缀匹配
+> 5. 作为其他数据结构和算法的辅助结构。
+
+### 对于[208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/) 这个就是简单的初始化 Trie 前缀树。
+
+节点包含的字段：
+
+- 指向子节点的指针数组 children
+- 标记是否字符串已结束
+
+插入字符串
+
+- 从根节点开始插入字符串，当前子节点存在，则顺着指针移动到下一节点；当前子节点不存在，创建一个新的子节点，记录在数组 children 的对应位置上，然后沿着指针移动到子节点，继续搜索下一个字符。
+- 重复这个步骤，直到结束
+
+查找前缀
+
+- 从字典树的根开始，查找前缀。子节点存在。沿着指针移动到子节点，继续搜索下一个字符；子节点不存在。说明字典树中不包含该前缀，返回空指针。
+- 重复以上步骤，直到返回空指针或搜索完前缀的最后一个字符。
+
+- 若搜索到了前缀的末尾，就说明字典树中存在该前缀。此外，若前缀末尾对应节点的 isEnd 为真，则说明字典树中存在该字符串。
+
+代码如下：
+
+```python
+class Trie:
+    def __init__(self):
+        self.children = [None] * 26
+        self.isEnd = False
+
+    def searchPrefix(self, prefix: str) -> "Trie":
+        node = self
+        for ch in prefix:
+            ch = ord(ch) - ord("a")
+            if not node.children[ch]:
+                return None
+            node = node.children[ch]
+        return node
+
+    def insert(self, word: str) -> None:
+        node = self
+        for ch in word:
+            ch = ord(ch) - ord("a")
+            if not node.children[ch]:
+                node.children[ch] = Trie()
+            node = node.children[ch]
+        node.isEnd = True
+
+    def search(self, word: str) -> bool:
+        node = self.searchPrefix(word)
+        return node is not None and node.isEnd
+
+    def startsWith(self, prefix: str) -> bool:
+        return self.searchPrefix(prefix) is not None
+```
+
+遇到的问题：
+
+1. 不会字典树
+2. ord()是字母转成 ASCII 码的函数。`ord('a') = 97`
+
+### 对于[1707. 与数组中元素的最大异或值](https://leetcode-cn.com/problems/maximum-xor-with-an-element-from-array/)
+
+这个可以说是前缀树的变形，把 nums 中的每个数转化为二进制，根据最高的二进制位数来创建一个前缀树，这个树的深度就是最高二进制位数+1，（因为第一层为空结点）。在查找时，如果要找的该位是 0，那应该找 1；要找的该位是 1，那应该找 0。
+
+代码如下：
+
+```python
+class Trie:
+    L = 30
+    def __init__(self):
+        self.right = None
+        self.left = None
+    def insert(self,val:int):
+        node = self
+        for i in range(Trie.L, -1, -1):
+            bit = (val >> i) & 1
+            if bit == 0:
+                if not node.left:
+                    node.left = Trie()
+                node = node.left
+            else:
+                if not node.right:
+                    node.right = Trie()
+                node = node.right
+    def getMaxXor(self, val:int) -> int:
+        ans, node = 0,self
+        for i in range(Trie.L, -1, -1):
+            bit = (val >> i) & 1
+            check = False
+            if bit == 0:
+                if node.right:
+                    node = node.right
+                    check = True
+                else:
+                    node = node.left
+            else:
+                if node.left:
+                    node = node.left
+                    check = True
+                else:
+                    node = node.right
+            if check:
+                ans |= 1 << i
+        return ans
+class Solution:
+    def maximizeXor(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        n = len(nums)
+        q = len(queries)
+        nums.sort()
+        queries = sorted([(x, m, i) for i, (x, m) in enumerate(queries)], key=lambda query: query[1])
+        ans = [0] * q
+        t = Trie()
+        idx = 0
+        for x, m, qid in queries:
+            while idx < n and nums[idx] <= m:
+                t.insert(nums[idx])
+                idx += 1
+            if idx == 0:
+                # 字典树为空
+                ans[qid] = -1
+            else:
+                ans[qid] = t.getMaxXor(x)
+
+        return ans
+```
+
+**复杂度分析**
+
+时间复杂度：$O(N\log N+Q\log Q+(N+Q)\cdot L)$。其中 N 是数组 nums 的长度，Q 是数组 queries 的长度，LL 是 nums 中的每个元素的二进制表示的长度，算法中固定 L=30 。排序 nums 的时间复杂度为 $O(N\log N)$，排序 queries 的时间复杂度为 $O(Q\log Q)$，每次插入和查询的时间复杂度均为 $O(L)$，因此总的时间复杂度为 $O(N\log N+Q\log Q+(N+Q)\cdot L)$。
+
+空间复杂度：$O(Q+N\cdot L)$。我们需要 $O(Q)$ 的空间来存储每个查询在排序前的 queries 中的位置，且 nums 中的每个元素至多需要 $O(L)$ 个字典树节点来存储，因此空间复杂度为 $O(Q+N\cdot L)$。
+
+遇到的问题：
+
+> 1. 字典树不会
+> 2. 没怎么懂这个题是怎么做的
+
+### 参考：
+
+https://blog.csdn.net/lisonglisonglisong/article/details/45584721
+
+https://baike.baidu.com/item/%E5%AD%97%E5%85%B8%E6%A0%91/9825209?fromtitle=Trie&fromid=140945&fr=aladdin

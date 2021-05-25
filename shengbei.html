@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="test.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .header,.footer{
+            height: 32px;
+            background: dimgray;
+            width: 100%;
+            color: #eee;
+            text-align: center;/*文字水平居中*/
+            line-height: 32px;/*文字垂直居中*/
+        }
+        .container{
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 100px;
+            padding-right: 200px;
+            overflow: hidden;/*形成bfc，因为里面的div块都已经float了*/
+        }
+        .main{
+            width: 100%;
+            float: left;
+            background-color: dimgray;
+            min-height: 300px;
+        }
+        .left{
+            float: left;
+            width: 100px;
+            background-color: aquamarine;
+            margin-left: -100%;
+            position: relative;
+            left: -100px;
+            min-height: 200px;
+        }
+        .right{
+            float: left;
+            width: 200px;
+            background-color: coral;
+            margin-left: -200px;
+            position: relative;
+            left: 200px;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">头部</div>
+    <div class="container">
+        <div class="main">中间中间中间中间中间中间中间中间</div>
+        <div class="left">左边左边左边左边左边左边左边左边</div>
+        <div class="right">右边右边右边右边右边右边右边右边右边</div>
+    </div>
+    <div class="footer">尾部</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Angular
+
+angular 是用于构建用户界面的 JavaScript 框架，主要被用来开发单页面应用程序。
+下载 angular：
+
+1. 下载 node.js，安装 node.js 的稳定版本
+2. 安装 cnpm : `npm install -g cnpm`
+3. 安装 Angular : `npm install -g @angular/cli`或者`cnpm install -g @angular/cli`
+4. 使用 `ng -v` 查看 Angular 是否安装成功，以及查看 Angular 版本
+
+创建 Angular 项目：
+
+1. 在 cmd 中找到项目目录
+2. `ng new 项目名称` 创建项目，会出现后面这个图：要不要创建路由？还有选择样式表格式，SCSS、Sass、Less 都是 CSS 的预处理器。![在这里插入图片描述](https://img-blog.csdnimg.cn/202105231640237.PNG#pic_center)
+
+3. 创建好了之后进入项目目录，然后`ng serve`即可访问 http://localhost:4200 查看 angular 项目
+
+Angular 项目文件目录结构（重要的文件）
+
+| 文件名称                       | 文件说明           |
+| ------------------------------ | ------------------ |
+| angular.json                   | angular 配置文件   |
+| package.json                   | 定义了项目名称、项目版本，以及项目所需的各种依赖   |
+| src > main.ts                  | 项目的入口 ts 文件 |
+| src > style.css                | 项目的 css         |
+| src > index.html               | 项目的模板         |
+| scr > app                      | app 模块目录       |
+| scr > app > app.module.ts      | app 模块           |
+| scr > app > app.component.ts   | app 组件           |
+| scr > app > app.component.html | app 模板           |
+| scr > app > app.componet.css   | app css            |
+| scr > assets                   | 静态资源           |

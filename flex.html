@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弹性三栏布局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .body{
+            display: flex;
+            flex-direction: column;
+        }
+        .header,
+        .footer {
+            height: 32px;
+            background: #444;
+            width: 100%;
+            color: #eee;
+            text-align: center;
+            /*水平居中文字*/
+            line-height: 32px;
+            /* lin-height是为了垂直居中文字 */
+        }
+        .container {
+            display: flex;
+
+        }
+        .left {
+            background-color: aquamarine;
+            width: 100px;
+            min-height: 200px;
+            order: -1;
+        }
+        .right {
+            background-color: coral;
+            width: 200px;
+            min-height: 400px;
+        }
+        .main {
+            flex: 1;
+            background-color: dimgray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <div class="header">头部</div>
+        <div class="container">
+            <div class="main">中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间中间</div>
+            <div class="left">左边左边左边左边左边左边左边左边左边左边左边左边左边左边左边左边左边</div>
+            <div class="right">
+                右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+        </div>
+        <div class="footer">尾部</div>
+    </div>
+</body>
+
+</html>

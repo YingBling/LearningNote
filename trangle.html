@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .tri{
+            width: 0px;
+            height: 0px;
+            border-color: black green blue red;
+            border-width: 50px 50px 50px 50px;
+            border-style: solid;
+            margin-bottom: 10px;
+        }
+        /* 第一种: 盒子宽高+margin，
+        需要计算 上外边距为自身高度一半，左外边距为自身宽度一半*/
+        /* .box{
+            width: 800px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        .son{
+            width: 400px;
+            height: 200px;
+            margin-top: 100px;
+            margin-left: 200px;
+            border: 1px solid red;
+        } */
+        /* 第二种：盒子高度+margin 
+        让子盒子距离顶部外边距为自己高度的一半，左右auto*/
+        /* .box{
+            width: 800px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        .son{
+            width: 400px;
+            height: 200px;
+            margin:100px auto;
+            border: 1px solid red;
+        } */
+        /* 第三种： 无需计算 盒子宽高+定位 
+        absolute定位+负margin
+        思路1：给父盒子加相对定位，给子盒子加绝对定位，
+        再设置子盒子相对于父盒子的边偏移：top：50%，left：50%；
+        然后设置左外边距为自身宽度一半，上外边距为自身高度一半*/
+        /* .box{
+            position: relative;
+            width: 700px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        .son{
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -200px;
+            border: 1px solid red;
+        } */
+        /* 第三种：absolute定位+margin:auto 
+        思路2：将子盒子边偏移全部设置成0，然后使用margin:auto*/
+        .box{
+            position: relative;
+            width: 500px;
+            height: 400px;
+            border:1px solid black;
+            
+        }
+        .son{
+            position: absolute;
+            width: 400px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 1px solid red;
+        }
+        /* 第四种：absolute定位 + Transform
+        思路：设置子盒子边偏移 top：50%，left：50%，
+        再用CSS3属性transform: translate(-50%, -50%); */
+        /* .box{
+            position: relative;
+            width: 500px;
+            height: 400px;
+            border:1px solid black;
+        }
+        .son{
+            position: absolute;
+            width: 400px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid red;
+        } */
+        /* 第五种：felx 
+        思路：justify-content：center；设置flex盒子中的项目在主轴上居中对齐
+        align-items：center；设置flex盒子中的项目在侧轴和主轴上居中对齐
+        主轴和侧轴都居中了，盒子也就水平垂直居中了*/
+        /* .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 800px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        .son{
+            width: 400px;
+            height: 200px;
+            border: 1px solid red;
+        } */
+        /* 第六种：
+        父元素display:table-cell; vertical-align:middle
+        子元素margin:auto */
+        /* .box{
+            width: 700px;
+            height: 400px;
+            background-color: aquamarine;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .son{
+            width: 200px;
+            height: 200px;
+            background-color:deepskyblue;
+            margin: auto;
+        } */
+
+    </style>
+</head>
+<body>
+    <div class="tri">
+        
+    </div>
+    <div class="box">
+        <div class="son">
+
+        </div>
+    </div>
+</body>
+</html>
